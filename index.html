@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="仙台旅行">
+<title>仙台旅行 2025</title>
+<style>
+/* ── 和色パレット ── */
+:root {
+  --sumi:    #1c1917;   /* 墨色　primary text */
+  --beni:    #9b2335;   /* 紅色　vermillion accent */
+  --ai:      #1e3a52;   /* 藍色　dark blue */
+  --washi:   #f5f0e8;   /* 和紙　page bg */
+  --shiro:   #fefcf9;   /* 白色　card bg */
+  --usuzumi: #e8e0d4;   /* 薄墨　border */
+  --hai:     #7a6f62;   /* 灰色　muted text */
+  --koke:    #5a6650;   /* 苔色　success */
+  --safe-b:  env(safe-area-inset-bottom, 0px);
+  --safe-t:  env(safe-area-inset-top, 0px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Hiragino Mincho ProN', 'Hiragino Sans', -apple-system, BlinkMacSystemFont, serif;
+  background: var(--washi);
+  color: var(--sumi);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  background: #0f0e0c;
+  color: #f5f0e8;
+  padding: calc(var(--safe-t) + 52px) 28px 40px;
+  position: relative;
+  overflow: hidden;
+}
+/* 青海波 seigaiha pattern */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='23'%3E%3Cellipse cx='20' cy='23' rx='20' ry='13' fill='none' stroke='%23ffffff' stroke-width='0.4' stroke-opacity='0.07'/%3E%3Cellipse cx='0'  cy='23' rx='20' ry='13' fill='none' stroke='%23ffffff' stroke-width='0.4' stroke-opacity='0.07'/%3E%3Cellipse cx='40' cy='23' rx='20' ry='13' fill='none' stroke='%23ffffff' stroke-width='0.4' stroke-opacity='0.07'/%3E%3Cellipse cx='10' cy='10' rx='20' ry='13' fill='none' stroke='%23ffffff' stroke-width='0.4' stroke-opacity='0.05'/%3E%3Cellipse cx='30' cy='10' rx='20' ry='13' fill='none' stroke='%23ffffff' stroke-width='0.4' stroke-opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; }
+.hero-kana {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--beni);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-family: -apple-system, sans-serif;
+  font-weight: 500;
+}
+.hero h1 {
+  font-size: 34px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.hero h1 em {
+  font-style: normal;
+  font-weight: 700;
+  color: #fff;
+}
+.hero-sub {
+  font-size: 12px;
+  color: rgba(245,240,232,0.5);
+  letter-spacing: 0.2em;
+  font-family: -apple-system, sans-serif;
+  margin-bottom: 28px;
+}
+.hero-divider {
+  width: 32px; height: 1px;
+  background: var(--beni);
+  margin-bottom: 20px;
+}
+.hero-route {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: -apple-system, sans-serif;
+}
+.r-node {
+  text-align: center;
+}
+.r-city {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #f5f0e8;
+}
+.r-date {
+  font-size: 10px;
+  color: rgba(245,240,232,0.5);
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+}
+.r-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(245,240,232,0.2);
+  position: relative;
+}
+.r-line::after {
+  content: '✈';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: rgba(245,240,232,0.4);
+}
+/* thin red bar at bottom */
+.hero-bar {
+  height: 2px;
+  background: var(--beni);
+  margin: 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   WEATHER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.weather-wrap { padding: 20px 20px 0; }
+.weather-card {
+  background: var(--shiro);
+  border: 1px solid var(--usuzumi);
+  padding: 20px;
+}
+.weather-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--hai);
+  text-transform: uppercase;
+  font-family: -apple-system, sans-serif;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.weather-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--usuzumi);
+}
+.weather-top {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.w-icon { font-size: 44px; line-height: 1; flex-shrink: 0; }
+.w-temp-block {}
+.w-temp {
+  font-size: 44px;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--sumi);
+  font-family: 'Helvetica Neue', sans-serif;
+}
+.w-desc {
+  font-size: 12px;
+  color: var(--hai);
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+  font-family: -apple-system, sans-serif;
+}
+.w-stats {
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  align-self: center;
+}
+.w-stat {
+  font-family: -apple-system, sans-serif;
+  font-size: 11px;
+  color: var(--hai);
+}
+.w-stat b { color: var(--sumi); font-weight: 700; display: block; font-size: 13px; }
+.w-divider { height: 1px; background: var(--usuzumi); margin-bottom: 14px; }
+.forecast-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.forecast-row::-webkit-scrollbar { display: none; }
+.fc-item {
+  flex-shrink: 0;
+  min-width: 58px;
+  text-align: center;
+  padding: 10px 6px;
+  border: 1px solid var(--usuzumi);
+  background: var(--washi);
+}
+.fc-day {
+  font-size: 10px;
+  color: var(--hai);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+  font-family: -apple-system, sans-serif;
+}
+.fc-icon { font-size: 18px; margin-bottom: 5px; }
+.fc-temp {
+  font-size: 11px;
+  color: var(--sumi);
+  font-family: -apple-system, sans-serif;
+  font-weight: 600;
+}
+.weather-err {
+  color: var(--hai);
+  font-size: 13px;
+  text-align: center;
+  padding: 12px 0;
+  font-family: -apple-system, sans-serif;
+}
+.weather-err a { color: var(--beni); text-decoration: none; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DAY TABS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.tabs-wrap { padding: 24px 20px 0; }
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--usuzumi);
+  overflow-x: auto;
+  scrollbar-width: none;
+  gap: 0;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0;
+  padding: 14px 18px 12px;
+  cursor: pointer;
+  text-align: center;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+  min-width: 72px;
+}
+.tab.active { border-bottom-color: var(--beni); }
+.tab-emoji { font-size: 16px; display: block; margin-bottom: 3px; }
+.tab-date {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--hai);
+  display: block;
+  font-family: -apple-system, sans-serif;
+  letter-spacing: 0.03em;
+}
+.tab.active .tab-date { color: var(--beni); }
+.tab-label {
+  font-size: 10px;
+  color: var(--usuzumi);
+  display: block;
+  margin-top: 2px;
+  font-family: -apple-system, sans-serif;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.tab.active .tab-label { color: var(--beni); opacity: 0.7; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MAIN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.main { padding: 24px 20px; }
+
+.day-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--usuzumi); }
+.day-title {
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--sumi);
+}
+.day-title span { font-weight: 700; }
+.day-sub {
+  font-size: 12px;
+  color: var(--hai);
+  margin-top: 6px;
+  letter-spacing: 0.05em;
+  font-family: -apple-system, sans-serif;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ITINERARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.items-list { display: flex; flex-direction: column; margin-bottom: 20px; }
+.item-card {
+  background: var(--shiro);
+  border: 1px solid var(--usuzumi);
+  border-left: 2px solid var(--beni);
+  padding: 16px 16px 14px 18px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.item-row { display: flex; gap: 14px; align-items: flex-start; }
+.item-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--beni);
+  min-width: 40px;
+  padding-top: 2px;
+  letter-spacing: 0.03em;
+  font-family: -apple-system, sans-serif;
+}
+.item-body { flex: 1; min-width: 0; }
+.item-name {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--sumi);
+  line-height: 1.4;
+}
+.item-addr {
+  font-size: 11px;
+  color: var(--hai);
+  margin-top: 4px;
+  letter-spacing: 0.03em;
+  font-family: -apple-system, sans-serif;
+}
+.item-note {
+  font-size: 12px;
+  color: var(--hai);
+  margin-top: 6px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  font-family: -apple-system, sans-serif;
+}
+.item-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--usuzumi);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BUTTONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+  cursor: pointer;
+  transition: opacity 0.15s, background 0.15s;
+  text-decoration: none;
+  font-family: -apple-system, sans-serif;
+  -webkit-appearance: none;
+}
+.btn:active { opacity: 0.65; }
+.btn-nav {
+  background: var(--sumi);
+  border-color: var(--sumi);
+  color: var(--washi);
+  flex: 1;
+}
+.btn-edit {
+  background: transparent;
+  border-color: var(--usuzumi);
+  color: var(--hai);
+}
+.btn-del {
+  background: transparent;
+  border-color: var(--usuzumi);
+  color: var(--beni);
+}
+
+/* ── Empty state ── */
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  border: 1px dashed var(--usuzumi);
+  margin-bottom: 20px;
+}
+.empty .e-kanji {
+  font-size: 28px;
+  letter-spacing: 0.2em;
+  color: var(--usuzumi);
+  margin-bottom: 12px;
+  font-weight: 300;
+}
+.empty p {
+  font-size: 13px;
+  color: var(--hai);
+  line-height: 1.8;
+  font-family: -apple-system, sans-serif;
+}
+
+/* ── Add button ── */
+.add-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px dashed var(--beni);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--beni);
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 28px;
+  font-family: -apple-system, sans-serif;
+  letter-spacing: 0.1em;
+  -webkit-appearance: none;
+}
+.add-btn:active { background: rgba(155,35,53,0.04); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTION CARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.section-card {
+  background: var(--shiro);
+  border: 1px solid var(--usuzumi);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--hai);
+  text-transform: uppercase;
+  font-family: -apple-system, sans-serif;
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--usuzumi);
+}
+.search-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.search-input {
+  flex: 1;
+  padding: 11px 14px;
+  border: 1px solid var(--usuzumi);
+  background: var(--washi);
+  font-size: 14px;
+  font-family: -apple-system, sans-serif;
+  outline: none;
+  color: var(--sumi);
+  border-radius: 0;
+  -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+.search-input::placeholder { color: var(--usuzumi); }
+.search-input:focus { border-color: var(--beni); background: var(--shiro); }
+.search-go {
+  background: var(--sumi);
+  color: var(--washi);
+  border: 1px solid var(--sumi);
+  padding: 11px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: -apple-system, sans-serif;
+  letter-spacing: 0.08em;
+  transition: opacity 0.15s;
+}
+.search-go:active { opacity: 0.7; }
+.quick-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.qbtn {
+  background: var(--washi);
+  border: 1px solid var(--usuzumi);
+  padding: 7px 13px;
+  font-size: 12px;
+  color: var(--hai);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: -apple-system, sans-serif;
+  letter-spacing: 0.03em;
+}
+.qbtn:active { background: var(--sumi); color: var(--washi); border-color: var(--sumi); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SPOTS GRID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.spots-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  scrollbar-width: none;
+  margin: 0 -20px;
+  padding: 4px 20px 6px;
+}
+.spots-row::-webkit-scrollbar { display: none; }
+.spot-card {
+  flex-shrink: 0;
+  width: 124px;
+  background: var(--washi);
+  border: 1px solid var(--usuzumi);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.spot-card:active { opacity: 0.65; }
+.spot-img {
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  background: #f0ebe0;
+  border-bottom: 1px solid var(--usuzumi);
+}
+.spot-info { padding: 8px 10px 10px; }
+.spot-name { font-size: 12px; color: var(--sumi); letter-spacing: 0.05em; }
+.spot-cat {
+  font-size: 10px;
+  color: var(--hai);
+  margin-top: 3px;
+  letter-spacing: 0.03em;
+  font-family: -apple-system, sans-serif;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MODAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,14,12,0.6);
+  z-index: 1000;
+  display: none;
+  align-items: flex-end;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--shiro);
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 0 0 calc(20px + var(--safe-b));
+  animation: slideUp .28s cubic-bezier(.32,1.1,.5,1);
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-bar {
+  height: 2px;
+  background: var(--beni);
+  margin-bottom: 0;
+}
+.modal-inner { padding: 24px 22px; }
+.modal-handle {
+  width: 32px; height: 3px;
+  background: var(--usuzumi);
+  margin: 0 auto 20px;
+  border-radius: 2px;
+}
+.modal h2 {
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  margin-bottom: 22px;
+  color: var(--sumi);
+  border-bottom: 1px solid var(--usuzumi);
+  padding-bottom: 14px;
+}
+.modal h2 span { font-weight: 700; }
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--hai);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: -apple-system, sans-serif;
+}
+.form-control {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--usuzumi);
+  background: var(--washi);
+  font-size: 15px;
+  font-family: -apple-system, sans-serif;
+  color: var(--sumi);
+  outline: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+.form-control:focus { border-color: var(--beni); background: var(--shiro); }
+textarea.form-control { resize: none; height: 86px; line-height: 1.6; }
+.modal-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--usuzumi);
+}
+.modal-btns .btn { flex: 1; padding: 14px; font-size: 13px; letter-spacing: 0.1em; }
+.btn-cancel { background: transparent; border-color: var(--usuzumi); color: var(--hai); }
+.btn-save { background: var(--sumi); border-color: var(--sumi); color: var(--washi); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOAST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.toast {
+  position: fixed;
+  bottom: calc(28px + var(--safe-b));
+  left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: var(--sumi);
+  color: var(--washi);
+  padding: 10px 20px;
+  font-size: 13px;
+  font-family: -apple-system, sans-serif;
+  letter-spacing: 0.08em;
+  z-index: 2000;
+  transition: transform 0.25s ease;
+  white-space: nowrap;
+  pointer-events: none;
+  border-left: 3px solid var(--beni);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── Spinner ── */
+.spin {
+  display: inline-block; width: 14px; height: 14px;
+  border: 1px solid var(--usuzumi);
+  border-top-color: var(--beni);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-row {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--hai); font-size: 13px;
+  font-family: -apple-system, sans-serif;
+}
+
+.bottom-pad { height: calc(32px + var(--safe-b)); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FILE UPLOAD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.file-upload-area {
+  border: 1px dashed var(--usuzumi);
+  padding: 18px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.file-upload-area.drag-over { border-color: var(--beni); background: rgba(155,35,53,0.03); }
+.file-upload-area:active { background: rgba(155,35,53,0.03); }
+.file-upload-text { font-size: 13px; color: var(--hai); letter-spacing: 0.05em; font-family: -apple-system, sans-serif; }
+.file-upload-text small { display: block; font-size: 11px; color: var(--usuzumi); margin-top: 5px; letter-spacing: 0.03em; }
+.file-preview-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.file-prev-item { position: relative; border: 1px solid var(--usuzumi); }
+.file-prev-item img { width: 72px; height: 72px; object-fit: cover; display: block; }
+.file-prev-pdf {
+  width: 72px; height: 72px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 3px;
+  background: var(--washi);
+}
+.file-prev-pdf span { font-size: 26px; }
+.file-prev-pdf small {
+  font-size: 9px; color: var(--hai); text-align: center;
+  padding: 0 4px; word-break: break-all; line-height: 1.3;
+  max-height: 26px; overflow: hidden; font-family: -apple-system, sans-serif;
+}
+.file-prev-remove {
+  position: absolute; top: -7px; right: -7px;
+  width: 18px; height: 18px;
+  background: var(--beni); color: white;
+  border: none; border-radius: 50%; font-size: 10px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* Attachments in item card */
+.item-attachments {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--usuzumi);
+}
+.attach-img {
+  width: 68px; height: 68px; object-fit: cover;
+  border: 1px solid var(--usuzumi);
+  cursor: pointer; transition: opacity 0.2s; display: block;
+}
+.attach-img:active { opacity: 0.7; }
+.attach-pdf {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 10px; border: 1px solid var(--usuzumi);
+  background: var(--washi); text-decoration: none;
+  color: var(--sumi); font-size: 11px;
+  font-family: -apple-system, sans-serif; letter-spacing: 0.03em;
+  max-width: 160px;
+}
+.attach-pdf span { font-size: 18px; flex-shrink: 0; }
+.attach-pdf em { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-style: normal; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ROUTE CONNECTOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.route-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.rc-tick {
+  width: 1px;
+  height: 10px;
+  background: var(--usuzumi);
+}
+.rc-card {
+  width: 100%;
+  border: 1px solid var(--usuzumi);
+  background: var(--washi);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+}
+.rc-arrow {
+  font-size: 11px;
+  color: var(--usuzumi);
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+  font-family: -apple-system, sans-serif;
+}
+.rc-from-to {
+  flex: 1;
+  min-width: 0;
+  font-size: 10px;
+  color: var(--hai);
+  font-family: -apple-system, sans-serif;
+  letter-spacing: 0.03em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.rc-from-to b { color: var(--sumi); font-weight: 700; }
+.rc-modes {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.rc-btn {
+  background: var(--shiro);
+  border: 1px solid var(--usuzumi);
+  padding: 5px 9px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+.rc-btn:active { background: var(--sumi); border-color: var(--sumi); }
+
+/* ── Hotel check-in field ── */
+.hotel-field {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.25s ease, margin-bottom 0.3s ease;
+  margin-bottom: 0;
+}
+.hotel-field.show {
+  max-height: 90px;
+  opacity: 1;
+  margin-bottom: 16px;
+}
+.hotel-field-inner {
+  border: 1px solid var(--beni);
+  background: rgba(155,35,53,0.03);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hotel-field-icon { font-size: 22px; flex-shrink: 0; }
+.hotel-field-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--beni);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: -apple-system, sans-serif;
+  margin-bottom: 5px;
+}
+.hotel-field input {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  font-family: -apple-system, sans-serif;
+  font-weight: 700;
+  color: var(--sumi);
+  outline: none;
+  width: 100%;
+  -webkit-appearance: none;
+}
+
+/* ── Check-in badge on item card ── */
+.checkin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  padding: 5px 10px;
+  border: 1px solid var(--beni);
+  font-size: 12px;
+  font-family: -apple-system, sans-serif;
+  color: var(--beni);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.checkin-badge span { font-size: 14px; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.93);
+  z-index: 3000; display: none;
+  align-items: center; justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 95vw; max-height: 88vh; object-fit: contain; }
+.lightbox-close {
+  position: absolute; top: calc(16px + var(--safe-t)); right: 16px;
+  background: none; border: 1px solid rgba(255,255,255,0.35);
+  color: white; width: 36px; height: 36px; font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-kana">Sendai Journey · Summer 2025</div>
+    <h1><em>仙台</em>旅行</h1>
+    <p class="hero-sub">東北 · 宮城県</p>
+    <div class="hero-divider"></div>
+    <div class="hero-route">
+      <div class="r-node">
+        <div class="r-city">台北</div>
+        <div class="r-date">8 / 2　出發</div>
+      </div>
+      <div class="r-line"></div>
+      <div class="r-node">
+        <div class="r-city">仙台</div>
+        <div class="r-date">8/3 — 8/5</div>
+      </div>
+      <div class="r-line"></div>
+      <div class="r-node">
+        <div class="r-city">台北</div>
+        <div class="r-date">8 / 6　回程</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hero-bar"></div>
+
+<!-- ── WEATHER ── -->
+<div class="weather-wrap">
+  <div class="weather-card" id="weatherCard">
+    <div class="loading-row"><div class="spin"></div>仙台天氣載入中…</div>
+  </div>
+</div>
+
+<!-- ── TABS ── -->
+<div class="tabs-wrap">
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main" id="main"></div>
+
+<!-- ── MODAL ── -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-bar"></div>
+    <div class="modal-inner">
+      <div class="modal-handle"></div>
+      <h2 id="modalTitle"><span>新增</span>行程</h2>
+      <div class="form-group">
+        <label class="form-label">時間</label>
+        <input type="time" class="form-control" id="fTime" value="09:00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">地點 / 活動名稱 *</label>
+        <input type="text" class="form-control" id="fName" placeholder="例：青葉城跡、牛舌午餐" oninput="detectHotel(this.value)">
+      </div>
+      <div class="hotel-field" id="hotelField">
+        <div class="hotel-field-inner">
+          <div class="hotel-field-icon">🏨</div>
+          <div style="flex:1">
+            <div class="hotel-field-label">Check-in 時間</div>
+            <input type="time" id="fCheckin" value="15:00">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">地址（供導航）</label>
+        <input type="text" class="form-control" id="fAddr" placeholder="例：仙台市青葉区川内1">
+      </div>
+      <div class="form-group">
+        <label class="form-label">備　　　　　註</label>
+        <textarea class="form-control" id="fNote" placeholder="票價、開放時間、注意事項…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">附件（PNG / PDF）</label>
+        <div class="file-upload-area" id="fileArea"
+             onclick="document.getElementById('fFiles').click()"
+             ondragover="dragOver(event)" ondragleave="dragLeave()" ondrop="dropFiles(event)">
+          <input type="file" id="fFiles" accept=".png,.jpg,.jpeg,.pdf" multiple
+                 style="display:none" onchange="handleFiles(this.files)">
+          <div class="file-upload-text">
+            點擊上傳 · 或拖曳檔案至此
+            <small>PNG · JPG · PDF　每檔上限 3MB</small>
+          </div>
+        </div>
+        <div class="file-preview-list" id="filePreview"></div>
+      </div>
+      <div class="modal-btns">
+        <button class="btn btn-cancel" onclick="closeModal()">取　消</button>
+        <button class="btn btn-save" onclick="saveItem()">儲　存</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+const DAYS = [
+  { date:'8/2', dow:'日', emoji:'✈️', label:'出發日',    note:'台北松山 → 仙台' },
+  { date:'8/3', dow:'一', emoji:'🏯', label:'仙台 一日', note:'初探仙台' },
+  { date:'8/4', dow:'二', emoji:'🍱', label:'仙台 二日', note:'深度遊覽' },
+  { date:'8/5', dow:'三', emoji:'🌸', label:'仙台 三日', note:'最後探索' },
+  { date:'8/6', dow:'四', emoji:'🛬', label:'回程日',    note:'仙台 → 台北' },
+];
+
+const SPOTS = [
+  { n:'青葉城跡', emoji:'🏯', cat:'歷史遺跡', q:'仙台市 青葉城跡' },
+  { n:'瑞鳳殿',   emoji:'⛩️', cat:'廟宇神社', q:'仙台市 瑞鳳殿' },
+  { n:'松島',     emoji:'🌊', cat:'自然景觀', q:'松島 宮城県' },
+  { n:'仙台朝市', emoji:'🥬', cat:'早市市場', q:'仙台 朝市' },
+  { n:'牛舌通',   emoji:'🥩', cat:'美　食　街', q:'仙台 牛舌 有名店' },
+  { n:'大崎八幡宮',emoji:'⛩️',cat:'神社',     q:'大崎八幡宮 仙台' },
+  { n:'一番町',   emoji:'🛍️', cat:'購物商圈', q:'仙台 一番町 アーケード' },
+  { n:'榴岡公園', emoji:'🌸', cat:'公　　　園', q:'榴岡公園 仙台' },
+  { n:'仙台駅',   emoji:'🚉', cat:'交通・美食', q:'仙台駅 グルメ おすすめ' },
+  { n:'秋保溫泉', emoji:'♨️', cat:'溫　　　泉', q:'秋保温泉 仙台' },
+];
+
+const WX = {
+  113:'☀️',116:'⛅',119:'☁️',122:'🌫️',143:'🌫️',176:'🌦️',179:'🌨️',
+  182:'🌧️',185:'🌧️',200:'⛈️',227:'❄️',230:'❄️',248:'🌫️',260:'🌫️',
+  263:'🌦️',266:'🌦️',281:'🌧️',284:'🌧️',293:'🌦️',296:'🌦️',299:'🌧️',
+  302:'🌧️',305:'🌧️',308:'⛈️',311:'🌧️',314:'🌧️',317:'🌨️',320:'❄️',
+  323:'❄️',326:'❄️',329:'❄️',332:'❄️',335:'❄️',338:'❄️',350:'🌧️',
+  353:'🌦️',356:'🌧️',359:'⛈️',362:'🌨️',365:'🌨️',368:'❄️',371:'❄️',
+  374:'🌨️',377:'🌨️',386:'⛈️',389:'⛈️',392:'⛈️',395:'❄️',
+};
+
+let curDay = 0, editIdx = null;
+let pendingFiles = [];
+let data = JSON.parse(localStorage.getItem('sendai25') || '{}');
+
+function init() {
+  buildTabs(); renderMain(); loadWeather();
+  const t = new Date();
+  if (t.getMonth() === 7) { const d = t.getDate()-2; if (d>=0&&d<5) switchDay(d); }
+}
+
+function buildTabs() {
+  document.getElementById('tabs').innerHTML = DAYS.map((d,i) => `
+    <div class="tab${i===curDay?' active':''}" onclick="switchDay(${i})">
+      <span class="tab-emoji">${d.emoji}</span>
+      <span class="tab-date">${d.date}（${d.dow}）</span>
+      <span class="tab-label">${d.label}</span>
+    </div>`).join('');
+}
+
+function switchDay(i) { curDay=i; buildTabs(); renderMain(); }
+
+function renderMain() {
+  const d = DAYS[curDay], items = data[curDay]||[];
+  document.getElementById('main').innerHTML = `
+    <div class="day-header">
+      <div class="day-title">${d.emoji}　<span>${d.label}</span></div>
+      <div class="day-sub">${d.date}（${d.dow}）· ${d.note}</div>
+    </div>
+
+    <div class="items-list">
+      ${items.length ? items.map((item,i) => renderItem(item,i) + (i < items.length-1 ? renderConnector(item, items[i+1]) : '')).join('') : `
+        <div class="empty">
+          <div class="e-kanji">旅　程</div>
+          <p>此日尚無行程<br>點選下方按鈕開始安排</p>
+        </div>`}
+    </div>
+
+    <button class="add-btn" onclick="openModal()">＋　新增行程</button>
+
+    <div class="section-card">
+      <div class="section-label">搜尋景點・餐廳</div>
+      <div class="search-row">
+        <input class="search-input" id="kw" placeholder="輸入關鍵字…" onkeypress="if(event.key==='Enter')doSearch()">
+        <button class="search-go" onclick="doSearch()">搜　尋</button>
+      </div>
+      <div class="quick-btns">
+        <button class="qbtn" onclick="qs('仙台 牛舌 人気レストラン')">🥩 牛舌</button>
+        <button class="qbtn" onclick="qs('仙台 ずんだ餅')">🍡 ずんだ</button>
+        <button class="qbtn" onclick="qs('仙台 観光スポット おすすめ')">🏯 景點</button>
+        <button class="qbtn" onclick="qs('仙台 カフェ おすすめ')">☕ 咖啡</button>
+        <button class="qbtn" onclick="qs('仙台 ラーメン 人気')">🍜 拉麵</button>
+        <button class="qbtn" onclick="qs('仙台 居酒屋 おすすめ')">🍺 居酒屋</button>
+        <button class="qbtn" onclick="qs('仙台 寿司 海鮮')">🍣 壽司</button>
+        <button class="qbtn" onclick="qs('松島 日帰り 観光')">🌊 松島</button>
+        <button class="qbtn" onclick="qs('仙台 お土産 人気')">🎁 伴手禮</button>
+        <button class="qbtn" onclick="qs('仙台 ドラッグストア コスメ')">💊 藥妝</button>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-label">仙台必訪景點</div>
+      <div class="spots-row">
+        ${SPOTS.map(s=>`
+          <div class="spot-card" onclick="gMaps('${s.q}')">
+            <div class="spot-img">${s.emoji}</div>
+            <div class="spot-info">
+              <div class="spot-name">${s.n}</div>
+              <div class="spot-cat">${s.cat}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="bottom-pad"></div>
+  `;
+}
+
+function renderItem(item, i) {
+  const nav = item.addr
+    ? `<button class="btn btn-nav" onclick="navigate('${esc(item.addr)}','${esc(item.name)}')">地　圖　導　航</button>`
+    : `<button class="btn btn-nav" onclick="gMaps('${esc(item.name)} 仙台')">地　圖　搜　尋</button>`;
+  return `<div class="item-card">
+    <div class="item-row">
+      <div class="item-time">${item.time||'—'}</div>
+      <div class="item-body">
+        <div class="item-name">${item.name}</div>
+        ${item.addr?`<div class="item-addr">📍 ${item.addr}</div>`:''}
+        ${item.note?`<div class="item-note">${item.note}</div>`:''}
+        ${item.checkin?`<div class="checkin-badge"><span>🏨</span> Check-in　${item.checkin}</div>`:''}
+        ${renderAttachments(item.files)}
+      </div>
+    </div>
+    <div class="item-btns">
+      ${nav}
+      <button class="btn btn-edit" onclick="openEdit(${i})">編輯</button>
+      <button class="btn btn-del" onclick="delItem(${i})">刪除</button>
+    </div>
+  </div>`;
+}
+
+function renderConnector(from, to) {
+  const fq = from.addr || (from.name + ' 仙台');
+  const tq = to.addr   || (to.name   + ' 仙台');
+  return `<div class="route-connector"
+    data-from="${esc(fq)}" data-to="${esc(tq)}">
+    <div class="rc-tick"></div>
+    <div class="rc-card">
+      <div class="rc-arrow">▼</div>
+      <div class="rc-from-to"><b>${from.name}</b> → ${to.name}</div>
+      <div class="rc-modes">
+        <button class="rc-btn" data-mode="walking"  title="步行">🚶</button>
+        <button class="rc-btn" data-mode="transit"  title="大眾運輸">🚃</button>
+        <button class="rc-btn" data-mode="driving"  title="開車">🚗</button>
+      </div>
+    </div>
+    <div class="rc-tick"></div>
+  </div>`;
+}
+
+function renderAttachments(files) {
+  if (!files?.length) return '';
+  return `<div class="item-attachments">${files.map(f =>
+    f.type === 'application/pdf'
+      ? `<a class="attach-pdf" href="${f.data}" target="_blank"><span>📄</span><em>${f.name}</em></a>`
+      : `<img class="attach-img" src="${f.data}" alt="${f.name}">`
+  ).join('')}</div>`;
+}
+
+/* ── FILE UPLOAD ── */
+function handleFiles(fileList) {
+  Array.from(fileList).forEach(file => {
+    const ok = ['image/png','image/jpeg','image/jpg','application/pdf'];
+    if (!ok.includes(file.type)) { toast('僅支援 PNG / JPG / PDF'); return; }
+    if (file.size > 3*1024*1024) { toast(`${file.name} 超過 3MB`); return; }
+    if (file.type === 'application/pdf') {
+      const r = new FileReader();
+      r.onload = e => { pendingFiles.push({name:file.name, type:file.type, data:e.target.result}); renderFilePreview(); };
+      r.readAsDataURL(file);
+    } else {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => {
+        const MAX = 1200;
+        let [w, h] = [img.width, img.height];
+        if (w > MAX || h > MAX) { if (w > h) { h = h*MAX/w; w = MAX; } else { w = w*MAX/h; h = MAX; } }
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        pendingFiles.push({name:file.name, type:'image/jpeg', data:c.toDataURL('image/jpeg', 0.82)});
+        renderFilePreview();
+      };
+      img.src = url;
+    }
+  });
+  document.getElementById('fFiles').value = '';
+}
+
+function dragOver(e) { e.preventDefault(); document.getElementById('fileArea').classList.add('drag-over'); }
+function dragLeave()  { document.getElementById('fileArea').classList.remove('drag-over'); }
+function dropFiles(e) {
+  e.preventDefault(); dragLeave();
+  handleFiles(e.dataTransfer.files);
+}
+
+function renderFilePreview() {
+  document.getElementById('filePreview').innerHTML = pendingFiles.map((f,i) => `
+    <div class="file-prev-item">
+      ${f.type==='application/pdf'
+        ? `<div class="file-prev-pdf"><span>📄</span><small>${f.name}</small></div>`
+        : `<img src="${f.data}" alt="${f.name}">`}
+      <button class="file-prev-remove" onclick="removeFile(${i})">✕</button>
+    </div>`).join('');
+}
+
+function removeFile(i) { pendingFiles.splice(i,1); renderFilePreview(); }
+
+/* ── LIGHTBOX ── */
+function viewImage(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  setTimeout(()=>{ document.getElementById('lightboxImg').src=''; }, 300);
+}
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('attach-img')) viewImage(e.target.src);
+
+  const rcBtn = e.target.closest('.rc-btn');
+  if (rcBtn) {
+    const card = rcBtn.closest('.route-connector');
+    const o = encodeURIComponent(card.dataset.from);
+    const d = encodeURIComponent(card.dataset.to);
+    const mode = rcBtn.dataset.mode;
+    window.open(`https://www.google.com/maps/dir/?api=1&origin=${o}&destination=${d}&travelmode=${mode}`, '_blank');
+  }
+});
+
+function esc(s) { return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+const HOTEL_KW = /飯店|酒店|hotel|ホテル|旅館|民宿|宿|hostel|inn/i;
+function detectHotel(val) {
+  document.getElementById('hotelField').classList.toggle('show', HOTEL_KW.test(val));
+}
+
+function navigate(addr, name) {
+  const q = encodeURIComponent((name?name+' ':'')+addr);
+  const t = Date.now();
+  window.location.href = `comgooglemaps://?q=${q}&zoom=15`;
+  setTimeout(()=>{ if(Date.now()-t<1500) window.open(`https://www.google.com/maps/search/?api=1&query=${q}`,'_blank'); }, 600);
+}
+function gMaps(q) { window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`,'_blank'); }
+function doSearch() { const k=document.getElementById('kw').value.trim(); if(!k){toast('請輸入搜尋關鍵字');return;} gMaps(k+' 仙台'); }
+function qs(q) { gMaps(q); }
+
+function openModal(idx=null) {
+  editIdx = idx;
+  const isEdit = idx!==null;
+  document.getElementById('modalTitle').innerHTML = isEdit ? '<span>編輯</span>行程' : '<span>新增</span>行程';
+  if (isEdit) {
+    const it = (data[curDay]||[])[idx];
+    document.getElementById('fTime').value = it.time||'';
+    document.getElementById('fName').value = it.name||'';
+    document.getElementById('fAddr').value = it.addr||'';
+    document.getElementById('fNote').value = it.note||'';
+    pendingFiles = [...(it.files||[])];
+    document.getElementById('fCheckin').value = it.checkin || '15:00';
+    detectHotel(it.name||'');
+  } else {
+    document.getElementById('fTime').value = '09:00';
+    document.getElementById('fName').value = '';
+    document.getElementById('fAddr').value = '';
+    document.getElementById('fNote').value = '';
+    document.getElementById('fCheckin').value = '15:00';
+    document.getElementById('hotelField').classList.remove('show');
+    pendingFiles = [];
+  }
+  renderFilePreview();
+  document.getElementById('overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('fName').focus(), 320);
+}
+function openEdit(i) { openModal(i); }
+function closeModal() { document.getElementById('overlay').classList.remove('open'); editIdx=null; }
+
+function saveItem() {
+  const name = document.getElementById('fName').value.trim();
+  if (!name) { toast('請輸入地點名稱'); document.getElementById('fName').focus(); return; }
+  const isHotel = HOTEL_KW.test(name);
+  const item = { time:document.getElementById('fTime').value, name, addr:document.getElementById('fAddr').value.trim(), note:document.getElementById('fNote').value.trim(), files:[...pendingFiles], checkin: isHotel ? document.getElementById('fCheckin').value : '' };
+  if (!data[curDay]) data[curDay]=[];
+  if (editIdx!==null) { data[curDay][editIdx]=item; } else { data[curDay].push(item); data[curDay].sort((a,b)=>(a.time||'').localeCompare(b.time||'')); }
+  save(); closeModal(); renderMain();
+  toast(editIdx!==null ? '行程已更新' : '行程已新增');
+}
+
+function delItem(i) {
+  if(!confirm('確定刪除此行程？')) return;
+  (data[curDay]||[]).splice(i,1); save(); renderMain(); toast('已刪除');
+}
+function save() { localStorage.setItem('sendai25', JSON.stringify(data)); }
+
+async function loadWeather() {
+  const card = document.getElementById('weatherCard');
+  try {
+    const r = await fetch('https://wttr.in/Sendai?format=j1', { signal: AbortSignal.timeout(8000) });
+    const d = await r.json();
+    const cur = d.current_condition[0];
+    const icon = WX[+cur.weatherCode]||'🌤️';
+    const { temp_C:t, FeelsLikeC:fl, humidity:hum, windspeedKmph:wind } = cur;
+    const desc = cur.weatherDesc[0].value;
+    const fcHTML = d.weather.slice(0,5).map((f,i)=>{
+      const dt = new Date(f.date);
+      const label = i===0?'今日':`${dt.getMonth()+1}/${dt.getDate()}`;
+      return `<div class="fc-item">
+        <div class="fc-day">${label}</div>
+        <div class="fc-icon">${WX[+f.hourly[4]?.weatherCode]||'🌤️'}</div>
+        <div class="fc-temp">${f.mintempC}°–${f.maxtempC}°</div>
+      </div>`;
+    }).join('');
+    card.innerHTML = `
+      <div class="weather-label">仙台市　現在の天気</div>
+      <div class="weather-top">
+        <div class="w-icon">${icon}</div>
+        <div class="w-temp-block">
+          <div class="w-temp">${t}<small style="font-size:20px;font-weight:300">°C</small></div>
+          <div class="w-desc">${desc}</div>
+        </div>
+        <div class="w-stats">
+          <div class="w-stat"><b>${hum}%</b>濕度</div>
+          <div class="w-stat"><b>${fl}°C</b>體感</div>
+          <div class="w-stat"><b>${wind}</b>km/h 風速</div>
+        </div>
+      </div>
+      <div class="w-divider"></div>
+      <div class="weather-label" style="margin-bottom:10px">五日天氣預報</div>
+      <div class="forecast-row">${fcHTML}</div>`;
+  } catch(e) {
+    card.innerHTML = `<div class="weather-err">天氣資料暫時無法載入<br><a href="https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=040000" target="_blank">→ 日本氣象廳 宮城縣</a></div>`;
+  }
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 2200);
+}
+
+document.getElementById('overlay').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+init();
+</script>
+</body>
+</html>
