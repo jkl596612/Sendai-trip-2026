@@ -973,17 +973,20 @@ const DAYS = [
   { date:'8/6', dow:'四', emoji:'🛬', label:'回程日',    note:'仙台 → 台北' },
 ];
 
+// 咒術迴戰「死滅迴游・仙台殖民地」聖地巡禮
 const SPOTS = [
-  { n:'青葉城跡', emoji:'🏯', cat:'歷史遺跡', q:'仙台市 青葉城跡' },
-  { n:'瑞鳳殿',   emoji:'⛩️', cat:'廟宇神社', q:'仙台市 瑞鳳殿' },
-  { n:'松島',     emoji:'🌊', cat:'自然景觀', q:'松島 宮城県' },
-  { n:'仙台朝市', emoji:'🥬', cat:'早市市場', q:'仙台 朝市' },
-  { n:'牛舌通',   emoji:'🥩', cat:'美　食　街', q:'仙台 牛舌 有名店' },
-  { n:'大崎八幡宮',emoji:'⛩️',cat:'神社',     q:'大崎八幡宮 仙台' },
-  { n:'一番町',   emoji:'🛍️', cat:'購物商圈', q:'仙台 一番町 アーケード' },
-  { n:'榴岡公園', emoji:'🌸', cat:'公　　　園', q:'榴岡公園 仙台' },
-  { n:'仙台駅',   emoji:'🚉', cat:'交通・美食', q:'仙台駅 グルメ おすすめ' },
-  { n:'秋保溫泉', emoji:'♨️', cat:'溫　　　泉', q:'秋保温泉 仙台' },
+  { n:'泉中央駅',         emoji:'🚉', cat:'乙骨 vs 石流',   q:'泉中央駅 仙台' },
+  { n:'聯名人孔蓋',       emoji:'🎨', cat:'乙骨・里香等',   q:'泉中央 呪術廻戦 マンホール' },
+  { n:'ユアテック競技場', emoji:'🏟️', cat:'宿儺 vs 萬',     q:'ユアテックスタジアム仙台' },
+  { n:'かむり大橋',       emoji:'🌉', cat:'乙骨 vs 黑沐死', q:'かむり大橋 仙台市泉区' },
+  { n:'SELVA 商場',       emoji:'🛍️', cat:'乙骨 vs 烏鷺',   q:'セルバ 仙台 泉中央' },
+  { n:'泉圖書館',         emoji:'📚', cat:'石流登場場景',   q:'仙台市泉図書館 泉中央' },
+  { n:'泉警察署',         emoji:'🚓', cat:'里香 vs 石流',   q:'泉警察署 仙台' },
+  { n:'仙台藩刑場跡',     emoji:'⛓️', cat:'結界中心',       q:'八乙女駅 仙台藩刑場跡' },
+  { n:'AER 展望台',       emoji:'🌆', cat:'俯瞰場景',       q:'AER展望テラス 仙台' },
+  { n:'ハピナ名掛丁',     emoji:'🏪', cat:'0卷 商店街',     q:'ハピナ名掛丁 仙台' },
+  { n:'龍之口溪谷',       emoji:'🏞️', cat:'伏黑出身地',     q:'龍の口渓谷 八木山橋 仙台' },
+  { n:'仙台第三高校',     emoji:'🏫', cat:'虎杖母校原型',   q:'仙台第三高等学校' },
 ];
 
 const WX = {
@@ -1056,7 +1059,7 @@ function renderMain() {
     </div>
 
     <div class="section-card">
-      <div class="section-label">仙台必訪景點</div>
+      <div class="section-label">咒術迴戰 · 仙台聖地巡禮</div>
       <div class="spots-row">
         ${SPOTS.map(s=>`
           <div class="spot-card" onclick="gMaps('${s.q}')">
