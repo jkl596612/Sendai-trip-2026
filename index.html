@@ -503,6 +503,28 @@ body {
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    SPOTS GRID
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ── Spot detail sheet ── */
+.spot-sheet-head { display:flex; align-items:center; gap:14px; margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid var(--usuzumi); }
+.spot-sheet-emoji {
+  font-size:34px; width:58px; height:58px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--washi); border:1px solid var(--usuzumi);
+}
+#spotName { font-size:19px; font-weight:300; letter-spacing:0.1em; }
+#spotName span { font-weight:700; }
+.spot-sheet-tag {
+  font-size:11px; color:var(--beni); margin-top:5px;
+  font-family:-apple-system,sans-serif; letter-spacing:0.08em; font-weight:700;
+}
+.spot-sheet-scene {
+  font-size:14px; color:var(--sumi); line-height:1.9;
+  letter-spacing:0.04em; font-family:-apple-system,sans-serif;
+  margin-bottom:20px;
+}
+.spot-sheet-btns { display:flex; flex-direction:column; gap:10px; }
+.spot-sheet-btns .btn { width:100%; padding:14px; font-size:14px; letter-spacing:0.08em; }
+.btn-scene { background:var(--beni); border-color:var(--beni); color:var(--washi); }
+
 .spots-row {
   display: flex;
   overflow-x: auto;
@@ -902,6 +924,29 @@ textarea.form-control { resize: none; height: 86px; line-height: 1.6; }
 <div class="main" id="main"></div>
 
 <!-- ── MODAL ── -->
+<!-- ── SPOT DETAIL SHEET ── -->
+<div class="overlay" id="spotOverlay">
+  <div class="modal">
+    <div class="modal-bar"></div>
+    <div class="modal-inner">
+      <div class="modal-handle"></div>
+      <div class="spot-sheet-head">
+        <div class="spot-sheet-emoji" id="spotEmoji">🚉</div>
+        <div>
+          <h2 id="spotName" style="border:none;padding:0;margin:0"><span>聖地</span></h2>
+          <div class="spot-sheet-tag" id="spotTag"></div>
+        </div>
+      </div>
+      <div class="spot-sheet-scene" id="spotScene"></div>
+      <div class="spot-sheet-btns">
+        <button class="btn btn-scene" id="spotSceneBtn">🎬　動畫場景對照</button>
+        <button class="btn btn-save" id="spotMapBtn">🗺️　Google Maps 導航</button>
+      </div>
+      <button class="btn btn-cancel" style="width:100%;margin-top:10px" onclick="closeSpot()">關　閉</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-bar"></div>
@@ -975,18 +1020,30 @@ const DAYS = [
 
 // 咒術迴戰「死滅迴游・仙台殖民地」聖地巡禮
 const SPOTS = [
-  { n:'泉中央駅',         emoji:'🚉', cat:'乙骨 vs 石流',   q:'泉中央駅 仙台' },
-  { n:'聯名人孔蓋',       emoji:'🎨', cat:'乙骨・里香等',   q:'泉中央 呪術廻戦 マンホール' },
-  { n:'ユアテック競技場', emoji:'🏟️', cat:'宿儺 vs 萬',     q:'ユアテックスタジアム仙台' },
-  { n:'かむり大橋',       emoji:'🌉', cat:'乙骨 vs 黑沐死', q:'かむり大橋 仙台市泉区' },
-  { n:'SELVA 商場',       emoji:'🛍️', cat:'乙骨 vs 烏鷺',   q:'セルバ 仙台 泉中央' },
-  { n:'泉圖書館',         emoji:'📚', cat:'石流登場場景',   q:'仙台市泉図書館 泉中央' },
-  { n:'泉警察署',         emoji:'🚓', cat:'里香 vs 石流',   q:'泉警察署 仙台' },
-  { n:'仙台藩刑場跡',     emoji:'⛓️', cat:'結界中心',       q:'八乙女駅 仙台藩刑場跡' },
-  { n:'AER 展望台',       emoji:'🌆', cat:'俯瞰場景',       q:'AER展望テラス 仙台' },
-  { n:'ハピナ名掛丁',     emoji:'🏪', cat:'0卷 商店街',     q:'ハピナ名掛丁 仙台' },
-  { n:'龍之口溪谷',       emoji:'🏞️', cat:'伏黑出身地',     q:'龍の口渓谷 八木山橋 仙台' },
-  { n:'仙台第三高校',     emoji:'🏫', cat:'虎杖母校原型',   q:'仙台第三高等学校' },
+  { n:'泉中央駅',         emoji:'🚉', cat:'乙骨 vs 石流',   q:'泉中央駅 仙台',
+    scene:'死滅迴游「仙台殖民地」的中心車站，乙骨憂太與石流龍正面對決的主要戰場。' },
+  { n:'聯名人孔蓋',       emoji:'🎨', cat:'乙骨・里香等',   q:'泉中央 呪術廻戦 マンホール',
+    scene:'仙台市內設置的官方聯名彩繪人孔蓋，繪有乙骨憂太、里香、石流、黑沐死。' },
+  { n:'ユアテック競技場', emoji:'🏟️', cat:'宿儺 vs 萬',     q:'ユアテックスタジアム仙台',
+    scene:'德魯夫的據點，也是宿儺 vs 萬（まこら）激戰舞台的取景原型。' },
+  { n:'かむり大橋',       emoji:'🌉', cat:'乙骨 vs 黑沐死', q:'かむり大橋 仙台市泉区',
+    scene:'乙骨憂太對黑沐死的戰鬥場景，也是羂索與佐佐木夢遊橋段的取景地。' },
+  { n:'SELVA 商場',       emoji:'🛍️', cat:'乙骨 vs 烏鷺',   q:'セルバ 仙台 泉中央',
+    scene:'泉中央的購物中心，乙骨憂太與烏鷺亨子戰鬥的場景原型。' },
+  { n:'泉圖書館',         emoji:'📚', cat:'石流登場場景',   q:'仙台市泉図書館 泉中央',
+    scene:'石流龍慵懶躺臥、初登場時的取景地。' },
+  { n:'泉警察署',         emoji:'🚓', cat:'里香 vs 石流',   q:'泉警察署 仙台',
+    scene:'里香（折本里香）與石流激烈衝突的地點。' },
+  { n:'仙台藩刑場跡',     emoji:'⛓️', cat:'結界中心',       q:'八乙女駅 仙台藩刑場跡',
+    scene:'仙台結界（殖民地）半徑約 5km 圓柱結界的中心點，江戶時代的處刑場遺跡。' },
+  { n:'AER 展望台',       emoji:'🌆', cat:'俯瞰場景',       q:'AER展望テラス 仙台',
+    scene:'俯瞰仙台市全景的高空場景取景地，可眺望整個殖民地範圍。' },
+  { n:'ハピナ名掛丁',     emoji:'🏪', cat:'0卷 商店街',     q:'ハピナ名掛丁 仙台',
+    scene:'劇場版《呪術廻戰 0》登場的商店街，狗卷棘在此（松本清）購買喉糖。' },
+  { n:'龍之口溪谷',       emoji:'🏞️', cat:'伏黑出身地',     q:'龍の口渓谷 八木山橋 仙台',
+    scene:'伏黑惠出身地的場景原型，八木山橋下的溪谷。' },
+  { n:'仙台第三高校',     emoji:'🏫', cat:'虎杖母校原型',   q:'仙台第三高等学校',
+    scene:'虎杖悠仁母校「杉澤第三高中」的原型校舍。' },
 ];
 
 const WX = {
@@ -1061,8 +1118,8 @@ function renderMain() {
     <div class="section-card">
       <div class="section-label">咒術迴戰 · 仙台聖地巡禮</div>
       <div class="spots-row">
-        ${SPOTS.map(s=>`
-          <div class="spot-card" onclick="gMaps('${s.q}')">
+        ${SPOTS.map((s,i)=>`
+          <div class="spot-card" onclick="openSpot(${i})">
             <div class="spot-img">${s.emoji}</div>
             <div class="spot-info">
               <div class="spot-name">${s.n}</div>
@@ -1223,6 +1280,20 @@ function navigate(addr, name) {
   setTimeout(()=>{ if(Date.now()-t<1500) window.open(`https://www.google.com/maps/search/?api=1&query=${q}`,'_blank'); }, 600);
 }
 function gMaps(q) { window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`,'_blank'); }
+
+/* ── 聖地詳情 ── */
+function openSpot(i) {
+  const s = SPOTS[i];
+  document.getElementById('spotEmoji').textContent = s.emoji;
+  document.getElementById('spotName').innerHTML = `<span>${s.n}</span>`;
+  document.getElementById('spotTag').textContent = '◈ ' + s.cat;
+  document.getElementById('spotScene').textContent = s.scene || '';
+  document.getElementById('spotMapBtn').onclick = () => gMaps(s.q);
+  document.getElementById('spotSceneBtn').onclick = () =>
+    window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent('呪術廻戦 ' + s.n + ' 聖地巡礼')}`, '_blank');
+  document.getElementById('spotOverlay').classList.add('open');
+}
+function closeSpot() { document.getElementById('spotOverlay').classList.remove('open'); }
 function doSearch() { const k=document.getElementById('kw').value.trim(); if(!k){toast('請輸入搜尋關鍵字');return;} gMaps(k+' 仙台'); }
 function qs(q) { gMaps(q); }
 
@@ -1349,6 +1420,7 @@ function toast(msg) {
 }
 
 document.getElementById('overlay').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+document.getElementById('spotOverlay').addEventListener('click', function(e){ if(e.target===this) closeSpot(); });
 init();
 </script>
 </body>
