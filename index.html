@@ -1060,8 +1060,66 @@ let curDay = 0, editIdx = null;
 let pendingFiles = [];
 let data = JSON.parse(localStorage.getItem('sendai25') || (document.getElementById('defaultData')||{}).textContent || '{}');
 
+/* ── Firebase 即時同步 ── */
+const firebaseConfig = {
+  apiKey: "AIzaSyCl1OclqKV9spCafeIZ7tKoPAcwRsIWl8E",
+  authDomain: "sendai-trip.firebaseapp.com",
+  databaseURL: "https://sendai-trip-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sendai-trip",
+  storageBucket: "sendai-trip.firebasestorage.app",
+  messagingSenderId: "15684452682",
+  appId: "1:15684452682:web:0f028e4570684cce3601b3"
+};
+let itinRef = null;
+
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = src; s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+
+async function initSync() {
+  try {
+    await loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');
+    await loadScript('https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js');
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    itinRef = db.ref('itinerary');
+    const snap = await itinRef.once('value');
+    if (!snap.exists()) { await itinRef.set(data); }   // 首次：把目前行程上傳當基準
+    itinRef.on('value', s => {
+      const v = s.val();
+      if (v) {
+        data = v;
+        localStorage.setItem('sendai25', JSON.stringify(data));
+        renderMain();
+      }
+    });
+    db.ref('.info/connected').on('value', c => setSyncStatus(!!c.val()));
+    setSyncStatus(true);
+  } catch (e) {
+    console.warn('雲端同步未啟用：', e);
+    setSyncStatus(false);
+  }
+}
+
+function setSyncStatus(on) {
+  let el = document.getElementById('syncBadge');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'syncBadge';
+    el.style.cssText = 'position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;z-index:2500;font:600 11px -apple-system,sans-serif;padding:5px 11px;letter-spacing:.05em;border:1px solid rgba(245,240,232,.25)';
+    document.body.appendChild(el);
+  }
+  el.textContent = on ? '☁ 雲端同步中' : '⚠ 離線（僅本機）';
+  el.style.background = on ? 'rgba(90,102,80,.92)' : 'rgba(122,111,98,.92)';
+  el.style.color = '#f5f0e8';
+}
+
 function init() {
-  buildTabs(); renderMain(); loadWeather();
+  buildTabs(); renderMain(); loadWeather(); initSync();
   const t = new Date();
   if (t.getMonth() === 7) { const d = t.getDate()-2; if (d>=0&&d<5) switchDay(d); }
 }
@@ -1341,7 +1399,10 @@ function delItem(i) {
   if(!confirm('確定刪除此行程？')) return;
   (data[curDay]||[]).splice(i,1); save(); renderMain(); toast('已刪除');
 }
-function save() { localStorage.setItem('sendai25', JSON.stringify(data)); }
+function save() {
+  localStorage.setItem('sendai25', JSON.stringify(data));
+  if (itinRef) itinRef.child(String(curDay)).set(data[curDay] || []);
+}
 
 /* ── 匯出 / 匯入 ── */
 function exportData() {
@@ -1365,7 +1426,9 @@ function importData(file) {
       const parsed = JSON.parse(e.target.result);
       if (typeof parsed !== 'object' || Array.isArray(parsed)) throw 0;
       data = parsed;
-      save(); renderMain();
+      localStorage.setItem('sendai25', JSON.stringify(data));
+      if (itinRef) itinRef.set(data);   // 整份覆寫到雲端
+      renderMain();
       toast('行程已匯入');
     } catch(_) { toast('檔案格式錯誤，匯入失敗'); }
   };
